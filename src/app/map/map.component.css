@@ -15,3 +15,7 @@
 #map {
   height: 100%;
 }
+
+#selectedMunicipio {
+  width: 200px;
+}
