@@ -16,14 +16,14 @@ export class MarkerService {
     private dataApiService: DataApiService) { }
 
   makeDenuesMarkers(map: L.Map, idestado: string, idmunicipio: string, actividad: string): void {
-    console.log('asui tmb!', idestado, idmunicipio, actividad);
-    
+    const markers = [];
+
     this.dataApiService.getDenues(idestado, idmunicipio, actividad).subscribe((res: any) => {
-      console.log('RES!', res);
-      
+      // console.log('RES!', res);
+
       for (const c of res) {
-        console.log(c);
-        
+        // console.log(c);
+
         const lat = parseFloat(c.latitud);
         const lon = parseFloat(c.longitd);
         // const marker2 = L.marker()
@@ -35,10 +35,15 @@ export class MarkerService {
               iconUrl: 'assets/1.png',
             })
           });
-          console.log(marker);
-          
-
+        // map.addLayer(marker);
         marker.bindPopup(this.popupService.makeDenuesPopup(c));
+        markers.push(marker);
+
+        markers.forEach(marker => {
+          marker.addTo(map);
+        })
+
+
         marker.addTo(map);
 
         //.addTo(map);

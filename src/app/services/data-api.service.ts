@@ -14,12 +14,12 @@ import { of } from 'rxjs';
 })
 export class DataApiService {
 
- 
+
 
   apiURL = 'http://127.0.0.1:8000/';
   // apiURL = 'https://valid-decoder-258800.appspot.com/';
-  
-  
+
+
   constructor(
     private http: HttpClient,
   ) { }
@@ -32,62 +32,62 @@ export class DataApiService {
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin':'*'
+      'Access-Control-Allow-Origin': '*'
 
     })
-  }  
+  }
 
-  
+
   getEstados(): Observable<Estados> {
-    console.log("estados: " + this.apiURL);
+    // console.log("estados: " + this.apiURL);
 
 
-    
-   return this.http.get<Estados>(this.apiURL + 'estados/')
-  //  return this.http.get<Estados>('assets/data/estados.json', this.httpOptions)
-   
-   .pipe(
-      retry(1),
-      catchError(this.handleError)
-    )
-  }   
+
+    return this.http.get<Estados>(this.apiURL + 'estados/')
+      //  return this.http.get<Estados>('assets/data/estados.json', this.httpOptions)
+
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      )
+  }
 
 
 
   getMunicipios(idestado: string): Observable<Municipios> {
-    console.log("municipios: " + this.apiURL);
+    // console.log("municipios: " + this.apiURL);
     return this.http.get<Municipios>(this.apiURL + 'municipios/?identidad=' + idestado)
-    .pipe(
-      retry(1),
-      catchError(this.handleError)
-    )
-  }   
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      )
+  }
 
 
   getUnidades(): Observable<Unidades> {
-    console.log("unidades: " + this.apiURL);
+    // console.log("unidades: " + this.apiURL);
     return this.http.get<Unidades>(this.apiURL + 'categorias/')
-    .pipe(
-      retry(1),
-      catchError(this.handleError)
-    )
-  }   
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      )
+  }
 
 
   getDenues(idestado: string, idmunicipio: string, tipo: string): Observable<Denues> {
-    console.log("denues: " + this.apiURL + idestado);
+    // console.log("denues: " + this.apiURL + idestado);
     return this.http.get<Denues>(this.apiURL + 'empresas/?identidad=' + idestado +
-    '&idmunicipio=' + idmunicipio + '&codigo_actividad=' + tipo)
-    .pipe(
-      retry(1),
-      catchError(this.handleError)
-    )
-  }   
+      '&idmunicipio=' + idmunicipio + '&codigo_actividad=' + tipo)
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      )
+  }
 
-   // Error handling 
-   handleError(error: { error: { message: string; }; status: any; message: any; }) {
+  // Error handling 
+  handleError(error: { error: { message: string; }; status: any; message: any; }) {
     let errorMessage = '';
-    if(error.error instanceof ErrorEvent) {
+    if (error.error instanceof ErrorEvent) {
       // Get client-side error
       errorMessage = error.error.message;
     } else {
@@ -96,5 +96,5 @@ export class DataApiService {
     }
     window.alert(errorMessage);
     return throwError(errorMessage);
- }
+  }
 }

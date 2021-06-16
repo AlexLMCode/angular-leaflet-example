@@ -18,6 +18,7 @@ const iconDefault = L.icon({
 });
 L.Marker.prototype.options.icon = iconDefault;
 
+
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -25,6 +26,9 @@ L.Marker.prototype.options.icon = iconDefault;
 })
 
 export class MapComponent implements AfterViewInit {
+  static initMap() {
+    throw new Error('Method not implemented.');
+  }
   private map: any;
 
   zoom = 12;
@@ -50,7 +54,7 @@ export class MapComponent implements AfterViewInit {
     this.getUnidades();
   }
 
-  private initMap(): void {
+  public initMap(): void {
     this.map = L.map('map', {
       center: [this.lat, this.lng],
       zoom: this.zoom
@@ -85,39 +89,53 @@ export class MapComponent implements AfterViewInit {
       .subscribe((municipios: any) => {
         this.arrMunicipios = municipios;
         console.log(municipios);
-        
+
       });
 
   }
 
-  public changeUnidad(){
+  public changeUnidad() {
     // console.log(this.arrActividades);
     // console.log(this.selectedUnidad);
-    
-    
-    
+
+
+
     // this.dataApiService.getUnidades().subscribe((empresas: any)=>{
     //   empresas.forEach(actividad => {
-        
+
     //   });
-      
+
     //   this.selectedUnidad = empresas.tipo;
     //   console.log('HOLA PUTO', this.selectedUnidad);
-      
+
     // })
+  }
+
+  public clearDenues() {
+    // console.log('MAP!', this.map);
+    this.map.eachLayer(layer => {
+      console.log(layer);
+      layer.remove()
+
+    })
+
+    // this.markerService.
   }
 
 
   public buscarDenues() {
-  
+
     console.log('AQUII!', this.selectedUnidad, this.selectedEstado, this.selectedMunicipio);
-    
+    // this.clearDenues();
+
     this.markerService.makeDenuesMarkers(this.map,
       this.selectedEstado,
       this.selectedMunicipio,
       this.selectedUnidad
     );
-    
+
+
+
 
   }
 
